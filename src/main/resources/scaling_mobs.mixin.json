@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "com.momosoftworks.scalingmobs.mixin",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "scaling_mobs.mixin-refmap.json",
+  "mixins": [
+    "MixinMobBurning"
+  ],
+  "client": [
+  ]
+}
