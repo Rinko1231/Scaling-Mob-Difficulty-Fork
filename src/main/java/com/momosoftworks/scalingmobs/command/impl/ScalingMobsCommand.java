@@ -31,7 +31,7 @@ public class ScalingMobsCommand extends BaseCommand
     {
         return builder
                 .requires(source -> source.hasPermission(0))
-                .then(Commands.literal("RinkoRatio")
+                .then(Commands.literal("ExtraDifficultyRatio")
                         .then(Commands.literal("rate")
                                 .then(Commands.argument("set", DoubleArgumentType.doubleArg(0.0, Double.MAX_VALUE)).requires(source -> source.hasPermission(2))
                                         .executes(source -> setRinkoRatio(source.getSource(), DoubleArgumentType.getDouble(source, "amount")))
