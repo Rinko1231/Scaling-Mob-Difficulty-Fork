@@ -30,6 +30,16 @@ public class ScalingMobsCommand extends BaseCommand
     public LiteralArgumentBuilder<CommandSourceStack> setExecution()
     {
         return builder
+                .requires(source -> source.hasPermission(0))
+                .then(Commands.literal("RinkoRatio")
+                        .then(Commands.literal("rate")
+                                .then(Commands.argument("set", DoubleArgumentType.doubleArg(0.0, Double.MAX_VALUE)).requires(source -> source.hasPermission(2))
+                                        .executes(source -> setRinkoRatio(source.getSource(), DoubleArgumentType.getDouble(source, "amount")))
+                                )
+                                .then(Commands.literal("get")
+                                        .executes(source -> getRinkoRatio(source.getSource()))
+                                )
+                        ))
                 .then(Commands.literal("health")
                         .then(Commands.literal("rate")
                                 .then(Commands.argument("set", DoubleArgumentType.doubleArg(0.0, Double.MAX_VALUE)).requires(source -> source.hasPermission(2))
@@ -162,6 +172,33 @@ public class ScalingMobsCommand extends BaseCommand
     /**
      * Set Commands
      */
+    static int setRinkoRatio(CommandSourceStack source, double rate) throws CommandSyntaxException
+    {
+        ScalingMobsConfig.getInstance().setRinkoRatio(rate);
+
+        String yellow = ChatFormatting.YELLOW.toString();
+        String white = ChatFormatting.WHITE.toString();
+        String dgray = ChatFormatting.DARK_GRAY.toString();
+        String gray = ChatFormatting.GRAY.toString();
+
+        // print changes to sender
+        source.getPlayer().displayClientMessage(Component.literal(
+                yellow + "Set the rate of mob health scaling to " +
+                        white + "+" + ScalingMobsConfig.getInstance().getRinkoRatio()), false);
+
+        // print to all players
+        for (Player player : source.getPlayer().level().players())
+        {
+            if (player != source.getPlayer())
+            {
+                player.displayClientMessage(Component.literal(
+                        gray + source.getPlayer().getName().getString() + ": " + dgray +
+                                "Set the Extra Difficulty Ratio to " + gray + ScalingMobsConfig.getInstance().getRinkoRatio()), false);
+            }
+        }
+
+        return Command.SINGLE_SUCCESS;
+    }
     static int setHealthRate(CommandSourceStack source, double rate) throws CommandSyntaxException
     {
         ScalingMobsConfig.getInstance().setMobHealthRate(rate);
@@ -548,6 +585,17 @@ public class ScalingMobsCommand extends BaseCommand
     /**
      * Get Commands
      */
+
+    static int getRinkoRatio(CommandSourceStack source) throws CommandSyntaxException
+    {
+        String yellow = ChatFormatting.YELLOW.toString();
+        String white = ChatFormatting.WHITE.toString();
+
+        source.getPlayer().displayClientMessage(Component.literal(yellow + "The extra difficulty rate is currently " +
+                white + "+" + ScalingMobsConfig.getInstance().getRinkoRatio()), false);
+
+        return Command.SINGLE_SUCCESS;
+    }
     static int getHealthRate(CommandSourceStack source) throws CommandSyntaxException
     {
         String yellow = ChatFormatting.YELLOW.toString();

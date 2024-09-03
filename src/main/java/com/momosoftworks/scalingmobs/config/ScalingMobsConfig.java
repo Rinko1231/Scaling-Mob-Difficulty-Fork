@@ -48,8 +48,8 @@ public class ScalingMobsConfig
         BUILDER.push("Misc");
 
         rinkoRatio = BUILDER
-                .comment("Rinko Ratio is used to determine the Player Day. When it is set to 0, the PlayerDay is calculated based on the average play time of online players. When it is set to 1, the PlayerDay is determined by the maximum play time of online players.")
-                .defineInRange("Rinko Ratio", 0, 0.0, 1.0);
+                .comment("Extra Difficulty Ratio is used to adapt the Player Day. When it is set to 0, the PlayerDay is calculated based on the average play time of online players. When it is set to 1, the PlayerDay is determined by the maximum play time of online players.")
+                .defineInRange("Extra Difficulty Ratio", 0, 0.0, 1.0);
 
         exponential = BUILDER
                 .comment("If true, mob stats will increase exponentially")
@@ -221,6 +221,10 @@ public class ScalingMobsConfig
     }
 
     // Setters
+    public void setRinkoRatio(double rate)
+    {
+        rinkoRatio.set(rate);
+    }
     public void setMobHealthRate(double rate)
     {
         mobHealthRate.set(rate);
